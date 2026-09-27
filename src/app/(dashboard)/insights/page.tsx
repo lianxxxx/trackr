@@ -9,7 +9,6 @@ import {
   TbTrendingDown,
   TbBulb,
   TbChartBar,
-  TbSparkles,
   TbRefresh,
   TbChevronDown,
   TbChevronUp,
@@ -90,14 +89,7 @@ function ScoreRing({ score, label }: { score: number; label: string }) {
   const circ = 2 * Math.PI * radius;
   const offset = circ - (score / 100) * circ;
 
-  const color =
-    score >= 80
-      ? "#22c55e"
-      : score >= 60
-        ? "#3b82f6"
-        : score >= 40
-          ? "#f59e0b"
-          : "#f87171";
+  const color = "#3b82f6";
 
   return (
     <div className="flex flex-col items-center justify-center gap-2">
@@ -162,7 +154,7 @@ function InsightCard({
       >
         <div className="flex items-center gap-3">
           <span
-            className={`w-8 h-8 rounded-lg flex items-center justify-center ${accent ?? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"}`}
+            className={`w-8 h-8 rounded-lg flex items-center justify-center ${accent ?? "bg-blue-50 dark:bg-blue-500/10 text-blue-500"}`}
           >
             {icon}
           </span>
@@ -191,7 +183,7 @@ function TipList({ tips }: { tips: string[] }) {
     <ul className="space-y-2 mt-3">
       {tips.map((tip, i) => (
         <li key={i} className="flex items-start gap-2.5">
-          <span className="mt-0.5 w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs font-bold  shrink-0">
+          <span className="mt-0.5 w-5 h-5 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center text-xs font-bold  shrink-0">
             {i + 1}
           </span>
           <span className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -388,14 +380,14 @@ export default function InsightsPage() {
             value: `₱${totalIncome.toLocaleString()}`,
             icon: <TbTrendingUp className="w-4 h-4" />,
             color:
-              "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400",
+              "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
           },
           {
             label: "Expenses",
             value: `₱${totalExpenses.toLocaleString()}`,
             icon: <TbShoppingCart className="w-4 h-4" />,
             color:
-              "bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400",
+              "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
           },
           {
             label: "Net",
@@ -403,7 +395,7 @@ export default function InsightsPage() {
             icon: <TbWallet className="w-4 h-4" />,
             color:
               net >= 0
-                ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-500"
                 : "bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400",
           },
         ].map((s) => (
@@ -433,8 +425,8 @@ export default function InsightsPage() {
         <button
           onClick={generateInsights}
           disabled={loading}
-          className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-3 rounded-2xl font-semibold text-sm transition-all
-      bg-blue-600 hover:bg-blue-700 active:scale-[0.98] cursor-pointer text-white
+          className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-3 rounded-full font-semibold text-sm transition-all
+      bg-blue-500 hover:bg-blue-600 active:scale-[0.98] cursor-pointer text-white
       disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? (
@@ -443,10 +435,7 @@ export default function InsightsPage() {
               Analyzing your finances…
             </>
           ) : (
-            <>
-              <TbSparkles className="w-4 h-4" />
-              {generated ? "Regenerate Insights" : "Generate AI Insights"}
-            </>
+            <>{generated ? "Regenerate Insights" : "Generate AI Insights"}</>
           )}
         </button>
       </div>
@@ -496,7 +485,7 @@ export default function InsightsPage() {
             <InsightCard
               icon={<TbChartBar className="w-4 h-4" />}
               title="Spending Pattern"
-              accent="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
+              accent="bg-blue-50 dark:bg-blue-500/10 text-blue-500"
             >
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-3">
                 {insights.spendingPattern}
@@ -512,7 +501,7 @@ export default function InsightsPage() {
                 )
               }
               title="Month-over-Month"
-              accent="bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400"
+              accent="bg-blue-50 dark:bg-blue-500/10 text-blue-500"
             >
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-3">
                 {insights.monthOverMonth}
@@ -522,8 +511,8 @@ export default function InsightsPage() {
                   <span
                     className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                       parseFloat(momChange) > 0
-                        ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
-                        : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
+                        ? "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
                     }`}
                   >
                     {parseFloat(momChange) > 0 ? "↑" : "↓"}{" "}
@@ -537,7 +526,7 @@ export default function InsightsPage() {
             <InsightCard
               icon={<TbTarget className="w-4 h-4" />}
               title="Budget Recommendations"
-              accent="bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400"
+              accent="bg-blue-50 dark:bg-blue-500/10 text-blue-500"
             >
               <TipList tips={insights.budgetRecommendations} />
             </InsightCard>
@@ -545,7 +534,7 @@ export default function InsightsPage() {
             <InsightCard
               icon={<TbBulb className="w-4 h-4" />}
               title="Savings Tips"
-              accent="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400"
+              accent="bg-blue-50 dark:bg-blue-500/10 text-blue-500"
             >
               <TipList tips={insights.savingsTips} />
             </InsightCard>
@@ -585,14 +574,7 @@ export default function InsightsPage() {
                 minute: "2-digit",
                 hour12: true,
               });
-              const scoreColor =
-                entry.data.score >= 80
-                  ? "text-emerald-500"
-                  : entry.data.score >= 60
-                    ? "text-blue-500"
-                    : entry.data.score >= 40
-                      ? "text-amber-500"
-                      : "text-red-400";
+              const scoreColor = "text-blue-500";
               return (
                 <div
                   key={entry.id}

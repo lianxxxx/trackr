@@ -3,12 +3,8 @@
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LuSettings } from "react-icons/lu";
+import { LuSettings, LuPanelLeftOpen } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
-import {
-  TbLayoutSidebarLeftCollapseFilled,
-  TbLayoutSidebarLeftExpandFilled,
-} from "react-icons/tb";
 import { navItems } from "@/lib/navItems";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -58,19 +54,6 @@ export default function DesktopSidebar({ user }: Props) {
       className={`hidden md:flex flex-col h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 fixed left-0 top-0 z-40 transition-all duration-300 
     ${collapsed ? "w-20" : "w-64"}`}
     >
-      {/* Toggle button */}
-      <button
-        onClick={toggle}
-        title={collapsed ? "Expand" : "Collapse"}
-        className="absolute -right-3 top-7 z-50 w-6 h-6   flex items-center justify-center text-slate-500  dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400  transition-colors  cursor-pointer"
-      >
-        {collapsed ? (
-          <TbLayoutSidebarLeftCollapseFilled size={21} />
-        ) : (
-          <TbLayoutSidebarLeftExpandFilled size={21} />
-        )}
-      </button>
-
       {/* User */}
       <div
         className={`flex items-center gap-3 px-4 py-6 border-b border-slate-200 dark:border-slate-800 ${collapsed ? "justify-center" : ""}`}
@@ -114,6 +97,18 @@ export default function DesktopSidebar({ user }: Props) {
 
       {/* Settings  */}
       <div className="px-3 py-2 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-1">
+        <button
+          onClick={toggle}
+          title={collapsed ? "Expand" : undefined}
+          className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 w-full cursor-pointer
+    ${collapsed ? "justify-center" : ""}`}
+        >
+          <LuPanelLeftOpen
+            size={18}
+            className={`shrink-0 transition-transform duration-300 ${collapsed ? "" : "rotate-180"}`}
+          />
+          {!collapsed && "Collapse"}
+        </button>
         <Link
           href="/settings"
           title={collapsed ? "Settings" : undefined}

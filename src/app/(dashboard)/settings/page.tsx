@@ -164,7 +164,7 @@ export default function SettingsPage() {
           </div>
           <div className="flex items-center justify-between px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
                 {isDark ? <TbMoon size={18} /> : <TbSun size={18} />}
               </div>
               <p className="text-sm font-medium text-slate-900 dark:text-slate-50">
@@ -217,7 +217,7 @@ export default function SettingsPage() {
           </div>
           <div className="flex items-center justify-between px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
                 <TbCurrencyPeso size={18} />
               </div>
               <div>
@@ -240,12 +240,12 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-500/10 flex items-center justify-center text-purple-500">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
                 <TbInfoCircle size={18} />
               </div>
               <div>
                 <p className="text-sm font-medium text-slate-900 dark:text-slate-50">
-                  Finance Tracker
+                  Trackr
                 </p>
                 <p className="text-xs text-slate-400">Version 1.0.0</p>
               </div>

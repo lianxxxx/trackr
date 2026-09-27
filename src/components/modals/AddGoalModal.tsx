@@ -79,23 +79,23 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center sm:px-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md max-h-[90vh] flex flex-col border border-slate-200 dark:border-slate-800 shadow-xl">
+      <div className="relative bg-white dark:bg-slate-900 w-full h-full sm:h-auto sm:rounded-2xl sm:max-w-md sm:max-h-[90vh] flex flex-col sm:border border-slate-200 dark:border-slate-800 shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0">
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
                 {editData ? (
                   <TbPencil
                     size={15}
-                    className="text-slate-500 dark:text-slate-400"
+                    className="text-blue-500"
                   />
                 ) : (
                   <MdAdd
                     size={17}
-                    className="text-slate-500 dark:text-slate-400"
+                    className="text-blue-500"
                   />
                 )}
               </div>
@@ -117,7 +117,7 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
           </button>
         </div>
 
-        <div className="px-6 flex-1 min-h-0">
+        <div className="px-6 overflow-y-auto flex-initial min-h-0 pt-2">
           <div className="flex flex-col gap-3">
             <div className="relative">
               <input
@@ -237,13 +237,13 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
         <div className="flex gap-2 px-6 pt-4 pb-6 shrink-0">
           <button
             onClick={handleSubmit}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-xl transition-colors cursor-pointer"
+            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
           >
             {editData ? "Save Changes" : "Add Goal"}
           </button>
           <button
             onClick={onClose}
-            className="flex-1  bg-slate-100  text-slate-800 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium py-2.5 rounded-xl transition-colors border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+            className="flex-1  bg-slate-100  text-slate-800 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium py-2.5 rounded-full transition-colors border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
           >
             Discard
           </button>

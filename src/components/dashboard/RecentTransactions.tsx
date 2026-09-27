@@ -23,14 +23,14 @@ const categoryIcon: Record<string, React.ReactElement> = {
 
 const categoryColor: Record<string, string> = {
   Food: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
-  Salary: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500",
-  Freelance: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500",
-  Investment: "bg-purple-50 dark:bg-purple-500/10 text-purple-500",
-  Entertainment: "bg-red-50 dark:bg-red-500/10 text-red-500",
-  Bills: "bg-amber-50 dark:bg-amber-500/10 text-amber-500",
-  Transport: "bg-cyan-50 dark:bg-cyan-500/10 text-cyan-500",
-  Shopping: "bg-pink-50 dark:bg-pink-500/10 text-pink-500",
-  Other: "bg-slate-100 dark:bg-slate-500/10 text-slate-500",
+  Salary: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Freelance: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Investment: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Entertainment: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Bills: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Transport: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Shopping: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Other: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
 };
 
 interface Props {
@@ -41,8 +41,8 @@ export default function RecentTransactions({ transactions }: Props) {
   const recent = transactions.slice(0, 5);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 mt-4">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 mt-4 overflow-hidden">
+      <div className="flex items-center justify-between px-6 pt-6 pb-4">
         <h2 className="text-base font-semibold text-slate-900 dark:text-slate-50">
           Recent Transactions
         </h2>
@@ -55,13 +55,13 @@ export default function RecentTransactions({ transactions }: Props) {
       </div>
 
       {/* Header - hidden on mobile */}
-      <div className="hidden sm:grid grid-cols-3 px-4 mb-2">
-        <p className="text-xs text-slate-400">Name</p>
-        <p className="text-xs text-slate-400 text-center">Date</p>
-        <p className="text-xs text-slate-400 text-right">Amount</p>
+      <div className="hidden sm:grid grid-cols-3 px-6 pb-3 border-b border-slate-200 dark:border-slate-800">
+        <p className="text-xs font-medium text-slate-400">Name</p>
+        <p className="text-xs font-medium text-slate-400 text-center">Date</p>
+        <p className="text-xs font-medium text-slate-400 text-right">Amount</p>
       </div>
       {recent.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-2 gap-2">
+        <div className="flex flex-col items-center justify-center pt-2 pb-6 gap-2">
           <VscEmptyWindow
             size={35}
             className="text-slate-300 dark:text-slate-600"
@@ -74,16 +74,16 @@ export default function RecentTransactions({ transactions }: Props) {
           </p>
         </div>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="divide-y divide-slate-100 dark:divide-slate-800 border-t border-slate-200 dark:border-slate-800 sm:border-t-0">
           {recent.map((t) => (
             <div
               key={t.id}
-              className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="flex items-center justify-between px-4 sm:px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
             >
               {/* Left: icon + title + date (mobile) */}
               <div className="flex items-center gap-3">
                 <div
-                  className={`w-9 h-9 rounded-xl shrink-0 flex items-center justify-center ${categoryColor[t.category] || "bg-slate-100 dark:bg-slate-700 text-slate-500"}`}
+                  className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center ${categoryColor[t.category] || "bg-blue-50 dark:bg-blue-500/10 text-blue-500"}`}
                 >
                   {categoryIcon[t.category] || <TbTag size={18} />}
                 </div>
@@ -112,7 +112,7 @@ export default function RecentTransactions({ transactions }: Props) {
 
               {/* Right: amount */}
               <p
-                className={`text-sm font-semibold shrink-0 ${t.type === "income" ? "text-emerald-500" : "text-red-400"}`}
+                className={`text-sm font-semibold shrink-0 ${t.type === "income" ? "text-blue-500" : "text-slate-900 dark:text-slate-50"}`}
               >
                 {t.type === "income" ? "+" : "-"}₱{t.amount.toLocaleString()}
               </p>

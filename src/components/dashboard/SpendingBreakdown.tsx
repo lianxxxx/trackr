@@ -11,12 +11,12 @@ import {
 } from "recharts";
 import { TbChartDonut } from "react-icons/tb";
 const COLORS = [
+  "#1e40af",
   "#3b82f6",
-  "#22c55e",
-  "#f87171",
-  "#f59e0b",
-  "#a855f7",
-  "#06b6d4",
+  "#60a5fa",
+  "#93c5fd",
+  "#bfdbfe",
+  "#cbd5e1",
 ];
 
 interface Props {

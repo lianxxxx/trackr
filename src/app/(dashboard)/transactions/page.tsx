@@ -43,14 +43,14 @@ const categoryIcon: Record<string, React.ReactElement> = {
 
 const categoryColor: Record<string, string> = {
   Food: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
-  Salary: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500",
-  Freelance: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500",
-  Investment: "bg-purple-50 dark:bg-purple-500/10 text-purple-500",
-  Entertainment: "bg-red-50 dark:bg-red-500/10 text-red-500",
-  Bills: "bg-amber-50 dark:bg-amber-500/10 text-amber-500",
-  Transport: "bg-cyan-50 dark:bg-cyan-500/10 text-cyan-500",
-  Shopping: "bg-pink-50 dark:bg-pink-500/10 text-pink-500",
-  Other: "bg-slate-100 dark:bg-slate-500/10 text-slate-500",
+  Salary: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Freelance: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Investment: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Entertainment: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Bills: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Transport: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Shopping: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  Other: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
 };
 
 export default function TransactionsPage() {
@@ -92,7 +92,7 @@ export default function TransactionsPage() {
             setEditTarget(null);
             setShowModal(true);
           }}
-          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors cursor-pointer"
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-full transition-colors cursor-pointer"
         >
           <TbPlus size={18} />
           <span className="hidden sm:inline">Add Transaction</span>
@@ -145,7 +145,7 @@ export default function TransactionsPage() {
                   {/* Name */}
                   <div className="flex items-center gap-3 min-w-0 flex-1 sm:flex-none">
                     <div
-                      className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center ${categoryColor[t.category] || "bg-slate-100 dark:bg-slate-700 text-slate-500"}`}
+                      className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center ${categoryColor[t.category] || "bg-blue-50 dark:bg-blue-500/10 text-blue-500"}`}
                     >
                       {categoryIcon[t.category] || <TbTag size={16} />}
                     </div>
@@ -186,7 +186,7 @@ export default function TransactionsPage() {
                   {/* Amount + Actions */}
                   <div className="flex items-center gap-3 shrink-0 sm:contents">
                     <p
-                      className={`text-sm font-semibold ${t.type === "income" ? "text-emerald-500" : "text-red-400"}`}
+                      className={`text-sm font-semibold ${t.type === "income" ? "text-blue-500" : "text-slate-900 dark:text-slate-50"}`}
                     >
                       {t.type === "income" ? "+" : "-"}₱
                       {t.amount.toLocaleString()}

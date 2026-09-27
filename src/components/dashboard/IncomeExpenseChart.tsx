@@ -80,13 +80,13 @@ export default function IncomeExpenseChart({ transactions }: Props) {
             <Bar
               dataKey="income"
               name="Income"
-              fill="#22c55e"
+              fill="#3b82f6"
               radius={[6, 6, 0, 0]}
             />
             <Bar
               dataKey="expenses"
               name="Expenses"
-              fill="#f87171"
+              fill="#bfdbfe"
               radius={[6, 6, 0, 0]}
             />
           </BarChart>

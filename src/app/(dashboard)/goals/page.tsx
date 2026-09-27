@@ -35,18 +35,18 @@ const categoryIcon: Record<string, React.ReactElement> = {
 
 const categoryColor: Record<string, string> = {
   travel: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
-  emergency: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500",
-  gadget: "bg-purple-50 dark:bg-purple-500/10 text-purple-500",
-  education: "bg-amber-50 dark:bg-amber-500/10 text-amber-500",
-  other: "bg-slate-50 dark:bg-slate-500/10 text-slate-500",
+  emergency: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  gadget: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  education: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  other: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
 };
 
 const progressColor: Record<string, string> = {
   travel: "bg-blue-500",
-  emergency: "bg-emerald-500",
-  gadget: "bg-purple-500",
-  education: "bg-amber-500",
-  other: "bg-slate-500",
+  emergency: "bg-blue-500",
+  gadget: "bg-blue-500",
+  education: "bg-blue-500",
+  other: "bg-blue-500",
 };
 
 export default function GoalsPage() {
@@ -73,7 +73,7 @@ export default function GoalsPage() {
             setEditTarget(null);
             setShowModal(true);
           }}
-          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors cursor-pointer"
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-full transition-colors cursor-pointer"
         >
           + Add Goal
         </button>
@@ -113,7 +113,7 @@ export default function GoalsPage() {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div
-                      className={`w-10 h-10 rounded-xl shrink-0 flex items-center justify-center ${categoryColor[goal.category]}`}
+                      className={`w-10 h-10 rounded-xl shrink-0 flex items-center justify-center ${categoryColor[goal.category] || "bg-blue-50 dark:bg-blue-500/10 text-blue-500"}`}
                     >
                       {categoryIcon[goal.category]}
                     </div>
@@ -128,7 +128,7 @@ export default function GoalsPage() {
                   </div>
                   <div className="flex items-center gap-2 shrink-0 ml-2">
                     {isComplete ? (
-                      <span className="text-xs font-medium bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 px-2.5 py-1 rounded-full">
+                      <span className="text-xs font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-500 px-2.5 py-1 rounded-full">
                         Completed! 🎉
                       </span>
                     ) : (
@@ -155,7 +155,7 @@ export default function GoalsPage() {
                   </div>
                   <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all ${progressColor[goal.category]}`}
+                      className={`h-full rounded-full transition-all ${progressColor[goal.category] || "bg-blue-500"}`}
                       style={{ width: `${progress}%` }}
                     />
                   </div>

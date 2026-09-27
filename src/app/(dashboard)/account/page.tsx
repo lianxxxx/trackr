@@ -27,10 +27,10 @@ const typeIcon: Record<string, React.ReactElement> = {
 };
 
 const typeColor: Record<string, string> = {
-  cash: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500",
+  cash: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
   bank: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
-  ewallet: "bg-sky-50 dark:bg-sky-500/10 text-sky-500",
-  credit: "bg-purple-50 dark:bg-purple-500/10 text-purple-500",
+  ewallet: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
+  credit: "bg-blue-50 dark:bg-blue-500/10 text-blue-500",
 };
 
 const typeLabel: Record<string, string> = {
@@ -76,7 +76,7 @@ export default function AccountPage() {
             setEditTarget(null);
             setShowModal(true);
           }}
-          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors cursor-pointer"
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-full transition-colors cursor-pointer"
         >
           <TbPlus size={18} />
           Add Account
@@ -84,7 +84,7 @@ export default function AccountPage() {
       </div>
 
       {/* Total Balance Card */}
-      <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl p-6 mb-6 text-white">
+      <div className="bg-blue-500 rounded-2xl p-6 mb-6 text-white">
         <p className="text-sm font-medium opacity-80 mb-1">Total Balance</p>
         <p className="text-4xl font-bold">₱{totalBalance.toLocaleString()}</p>
         <p className="text-sm opacity-70 mt-2">

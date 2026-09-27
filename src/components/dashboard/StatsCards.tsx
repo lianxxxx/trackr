@@ -55,7 +55,7 @@ export default function StatsCards({ transactions }: Props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       {/* Total Balance */}
-      <div className="bg-linear-to-br from-blue-400 to-blue-700 rounded-2xl p-6">
+      <div className="bg-blue-500 rounded-2xl p-6">
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm text-blue-100">Total Balance</p>
           <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
@@ -69,42 +69,42 @@ export default function StatsCards({ transactions }: Props) {
       </div>
 
       {/* Monthly Income */}
-      <div className="bg-linear-to-br from-emerald-400 to-emerald-700 rounded-2xl p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-sm text-emerald-100">Monthly Income</p>
-          <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+          <p className="text-sm text-slate-500 dark:text-slate-400">Monthly Income</p>
+          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
             {incomeChange >= 0 ? (
-              <TbTrendingUp size={18} className="text-white" />
+              <TbTrendingUp size={18} className="text-blue-500" />
             ) : (
-              <TbTrendingDown size={18} className="text-white" />
+              <TbTrendingDown size={18} className="text-blue-500" />
             )}
           </div>
         </div>
-        <p className="text-3xl font-bold text-white">
+        <p className="text-3xl font-bold text-slate-900 dark:text-slate-50">
           ₱{currentIncome.toLocaleString()}
         </p>
-        <p className="text-xs text-emerald-100 mt-1">
+        <p className="text-xs text-slate-400 mt-1">
           {incomeChange >= 0 ? "↑" : "↓"} {Math.abs(incomeChange)}% vs last
           month
         </p>
       </div>
 
       {/* Monthly Expenses */}
-      <div className="bg-linear-to-br from-red-400 to-red-700 rounded-2xl p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-sm text-red-100">Monthly Expenses</p>
-          <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+          <p className="text-sm text-slate-500 dark:text-slate-400">Monthly Expenses</p>
+          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
             {expensesChange <= 0 ? (
-              <TbTrendingDown size={18} className="text-white" />
+              <TbTrendingDown size={18} className="text-blue-500" />
             ) : (
-              <TbTrendingUp size={18} className="text-white" />
+              <TbTrendingUp size={18} className="text-blue-500" />
             )}
           </div>
         </div>
-        <p className="text-3xl font-bold text-white">
+        <p className="text-3xl font-bold text-slate-900 dark:text-slate-50">
           ₱{currentExpenses.toLocaleString()}
         </p>
-        <p className="text-xs text-red-100 mt-1">
+        <p className="text-xs text-slate-400 mt-1">
           {expensesChange >= 0 ? "↑" : "↓"} {Math.abs(expensesChange)}% vs last
           month
         </p>
