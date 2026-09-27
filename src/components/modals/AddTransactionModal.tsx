@@ -50,6 +50,10 @@ export default function AddTransactionModal({
 
   const [customCategory, setCustomCategory] = useState("");
   const [displayAmount, setDisplayAmount] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const clearError = (field: string) =>
+    setErrors((prev) => ({ ...prev, [field]: "" }));
 
   useEffect(() => {
     if (editData) {
@@ -77,6 +81,7 @@ export default function AddTransactionModal({
       parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : raw;
 
     setForm({ ...form, amount: sanitized });
+    clearError("amount");
 
     if (sanitized === "" || sanitized === ".") {
       setDisplayAmount(sanitized);
@@ -90,8 +95,16 @@ export default function AddTransactionModal({
   };
 
   const handleSubmit = () => {
-    if (!form.title || !form.amount) return;
-    if (form.category === "Other" && !customCategory) return;
+    const next: Record<string, string> = {};
+    if (!form.title.trim()) next.title = "Title is required.";
+    if (!form.amount || !(Number(form.amount) > 0))
+      next.amount = "Enter an amount greater than 0.";
+    if (form.category === "Other" && !customCategory.trim())
+      next.customCategory = "Type a category.";
+    if (Object.keys(next).length > 0) {
+      setErrors(next);
+      return;
+    }
 
     onSubmit({
       title: form.title,
@@ -180,8 +193,11 @@ export default function AddTransactionModal({
                 id="title"
                 placeholder="Title"
                 value={form.title}
-                onChange={(e) => setForm({ ...form, title: e.target.value })}
-                className="peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent"
+                onChange={(e) => {
+                  setForm({ ...form, title: e.target.value });
+                  clearError("title");
+                }}
+                className={`peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent ${errors.title ? "border-red-400!" : ""}`}
               />
               <label
                 htmlFor="title"
@@ -192,6 +208,9 @@ export default function AddTransactionModal({
               >
                 Title
               </label>
+              {errors.title && (
+                <p className="text-xs text-red-400 mt-1 px-1">{errors.title}</p>
+              )}
             </div>
             <div className="relative">
               <input
@@ -201,7 +220,7 @@ export default function AddTransactionModal({
                 placeholder="Amount (₱)"
                 value={displayAmount}
                 onChange={handleAmountChange}
-                className="peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3  pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent"
+                className={`peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3  pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent ${errors.amount ? "border-red-400!" : ""}`}
               />
               <label
                 htmlFor="amount"
@@ -212,25 +231,39 @@ export default function AddTransactionModal({
               >
                 Amount
               </label>
+              {errors.amount && (
+                <p className="text-xs text-red-400 mt-1 px-1">{errors.amount}</p>
+              )}
             </div>
             {form.category === "Other" ? (
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Type your category"
-                  value={customCategory}
-                  onChange={(e) => setCustomCategory(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-300"
-                />
-                <button
-                  onClick={() => {
-                    setForm({ ...form, category: "Food" });
-                    setCustomCategory("");
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs cursor-pointer"
-                >
-                  ✕
-                </button>
+              <div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Type your category"
+                    value={customCategory}
+                    onChange={(e) => {
+                      setCustomCategory(e.target.value);
+                      clearError("customCategory");
+                    }}
+                    className={`w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-300 ${errors.customCategory ? "border-red-400!" : ""}`}
+                  />
+                  <button
+                    onClick={() => {
+                      setForm({ ...form, category: "Food" });
+                      setCustomCategory("");
+                      clearError("customCategory");
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                </div>
+                {errors.customCategory && (
+                  <p className="text-xs text-red-400 mt-1 px-1">
+                    {errors.customCategory}
+                  </p>
+                )}
               </div>
             ) : (
               <select
@@ -272,16 +305,16 @@ export default function AddTransactionModal({
 
         <div className="flex gap-2 px-6 pt-4 pb-6 shrink-0">
           <button
-            onClick={handleSubmit}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
-          >
-            {editData ? "Save Changes" : "Add Transaction"}
-          </button>
-          <button
             onClick={onClose}
             className="flex-1  text-slate-800  bg-slate-100 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium py-2.5 rounded-full transition-colors border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer"
           >
             Discard
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
+          >
+            {editData ? "Save Changes" : "Add Transaction"}
           </button>
         </div>
       </div>

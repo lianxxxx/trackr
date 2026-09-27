@@ -28,7 +28,7 @@ function ToastItem({
 
   return (
     <div
-      className={`flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl rounded-2xl px-4 py-3 w-72 transition-all duration-300 ${
+      className={`flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 w-72 transition-all duration-300 ${
         visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
       }`}
     >

@@ -10,9 +10,6 @@ import { useEffect, useState } from "react";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { IoMoonOutline } from "react-icons/io5";
 import { IoArrowForward } from "react-icons/io5";
-import { IoWalletOutline } from "react-icons/io5";
-import { FaChartSimple } from "react-icons/fa6";
-import { PiLightbulbLight } from "react-icons/pi";
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -97,9 +94,6 @@ export default function Home() {
       {/* Hero */}
       <section className="md:px-30 sm:px-10 px-5 pt-24 pb-16 flex flex-col lg:flex-row lg:items-center justify-between gap-14 lg:gap-12">
         <div className="max-w-3xl">
-        <p className="text-xs font-medium tracking-widest uppercase text-blue-500 mb-6">
-          Personal Finance
-        </p>
         <h1
           style={{ fontFamily: "var(--font-dm-serif)" }}
           className="md:text-6xl text-4xl sm:text-5xl leading-[1.08] tracking-tight text-[#0f0f0f] dark:text-slate-50 mb-6"
@@ -175,19 +169,6 @@ export default function Home() {
               built for people who want clarity, not clutter.
             </span>
           </p>
-          <div className="flex items-center justify-end gap-4 mt-9">
-            <span className="text-xs text-blue-400 font-medium tracking-wide uppercase">
-              Free
-            </span>
-            <span className="w-1 h-1 rounded-full bg-slate-200 dark:bg-slate-700" />
-            <span className="text-xs text-blue-400 font-medium tracking-wide uppercase">
-              Open source
-            </span>
-            <span className="w-1 h-1 rounded-full bg-slate-200 dark:bg-slate-700" />
-            <span className="text-xs text-blue-400 font-medium tracking-wide uppercase">
-              No ads
-            </span>
-          </div>
         </div>
       </div>
 
@@ -207,34 +188,101 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           {
-            icon: IoWalletOutline,
             title: "Track every peso",
             desc: "Log income and expenses in seconds. Categorized, searchable, always in sync.",
+            preview: (
+              <div className="space-y-2">
+                {[
+                  { cat: "Food", name: "Jollibee", amount: "-₱185", income: false },
+                  { cat: "Salary", name: "Payroll", amount: "+₱25,000", income: true },
+                ].map((t) => (
+                  <div
+                    key={t.name}
+                    className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 px-4 py-3 text-xs"
+                  >
+                    <span className="w-14 text-slate-400">{t.cat}</span>
+                    <span className="flex-1 font-medium text-slate-900 dark:text-slate-50">
+                      {t.name}
+                    </span>
+                    <span
+                      className={`font-semibold ${t.income ? "text-blue-500" : "text-slate-900 dark:text-slate-50"}`}
+                    >
+                      {t.amount}
+                    </span>
+                  </div>
+                ))}
+                <div className="flex items-center gap-3 rounded-xl bg-blue-500 px-4 py-3 text-xs">
+                  <span className="w-14 text-blue-100">Trackr</span>
+                  <span className="flex-1 font-medium text-white">Balance</span>
+                  <span className="font-semibold text-white">₱24,815</span>
+                </div>
+              </div>
+            ),
           },
           {
-            icon: FaChartSimple,
             title: "Visualize patterns",
             desc: "Charts that make your spending habits impossible to ignore.",
+            preview: (
+              <div>
+                <div className="flex items-end justify-between h-16 mb-3 border-b border-slate-200 dark:border-slate-800">
+                  {[
+                    [70, 45],
+                    [60, 80],
+                    [85, 40],
+                    [65, 55],
+                  ].map(([inc, exp], i) => (
+                    <div key={i} className="flex items-end gap-1 h-full">
+                      <span
+                        style={{ height: `${inc}%` }}
+                        className="w-3 sm:w-4 rounded-t-md bg-blue-500"
+                      />
+                      <span
+                        style={{ height: `${exp}%` }}
+                        className="w-3 sm:w-4 rounded-t-md bg-blue-200 dark:bg-slate-700"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Food", "Bills", "Transport", "Shopping"].map((c) => (
+                    <span
+                      key={c}
+                      className="rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-300"
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ),
           },
           {
-            icon: PiLightbulbLight,
             title: "AI-Powered Insights",
             desc: "Let AI analyze your finances and give you recommendations.",
+            preview: (
+              <div className="flex flex-col gap-2 text-xs">
+                <span className="self-end rounded-xl bg-slate-100 dark:bg-slate-800 px-4 py-3 text-slate-600 dark:text-slate-300">
+                  Where did my money go?
+                </span>
+                <span className="self-start max-w-[85%] rounded-xl bg-blue-500 px-4 py-3 text-white leading-relaxed">
+                  Food is up <span className="font-semibold">18%</span>. Cook
+                  at home twice a week to save ₱1,200.
+                </span>
+              </div>
+            ),
           },
         ].map((f) => (
           <div
             key={f.title}
-            className="rounded-xl border border-slate-100 dark:border-slate-800 p-6"
+            className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
           >
-            <span className="inline-flex mb-5 text-blue-500">
-              <f.icon size={20} />
-            </span>
-            <p className="text-sm font-semibold text-[#0f0f0f] dark:text-slate-50 mb-1.5">
+            <p className="text-base font-semibold text-slate-900 dark:text-slate-50 mb-1">
               {f.title}
             </p>
-            <p className="text-xs font-light text-slate-400 leading-relaxed">
+            <p className="text-sm font-light text-slate-400 leading-relaxed mb-5">
               {f.desc}
             </p>
+            <div className="mt-auto">{f.preview}</div>
           </div>
         ))}
         </div>

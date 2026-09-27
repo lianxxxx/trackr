@@ -23,7 +23,7 @@ export default function ErrorFallback({ error, reset, title }: Props) {
       </p>
       <button
         onClick={reset}
-        className="mt-5 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors cursor-pointer"
+        className="mt-5 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2.5 rounded-full transition-colors cursor-pointer"
       >
         <TbRefresh size={16} />
         Try again

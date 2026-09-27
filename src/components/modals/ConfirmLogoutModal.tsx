@@ -34,16 +34,16 @@ export default function ConfirmLogoutModal({
 
         <div className="flex gap-2">
           <button
-            onClick={onConfirm}
-            className="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
-          >
-            Log out
-          </button>
-          <button
             onClick={onClose}
             className="flex-1 text-slate-800  bg-slate-100 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium py-2.5 rounded-full transition-colors border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer"
           >
             Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
+          >
+            Log out
           </button>
         </div>
       </div>

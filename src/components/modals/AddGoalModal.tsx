@@ -24,6 +24,10 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
   const [customCategory, setCustomCategory] = useState("");
   const [displayTarget, setDisplayTarget] = useState("");
   const [displayCurrent, setDisplayCurrent] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const clearError = (field: string) =>
+    setErrors((prev) => ({ ...prev, [field]: "" }));
 
   useEffect(() => {
     if (!editData) return;
@@ -54,6 +58,7 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
   ) => {
     const raw = e.target.value.replace(/[^0-9.]/g, "");
     setForm((prev) => ({ ...prev, [field]: raw }));
+    clearError(field);
     if (!raw) {
       setDisplay("");
       return;
@@ -66,8 +71,17 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
   };
 
   const handleSubmit = () => {
-    if (!form.title || !form.targetAmount) return;
-    if (form.category === "other" && !customCategory) return;
+    const next: Record<string, string> = {};
+    if (!form.title.trim()) next.title = "Goal title is required.";
+    if (!form.targetAmount || !(Number(form.targetAmount) > 0))
+      next.targetAmount = "Enter a target amount greater than 0.";
+    if (form.category === "other" && !customCategory.trim())
+      next.customCategory = "Type a category.";
+    if (Object.keys(next).length > 0) {
+      setErrors(next);
+      return;
+    }
+    // Shown live under the Current Amount field
     if (Number(form.currentAmount) > Number(form.targetAmount)) return;
     onSubmit({
       title: form.title,
@@ -125,8 +139,11 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
                 id="goaltitle"
                 placeholder="Goal title (e.g. Japan Trip)"
                 value={form.title}
-                onChange={(e) => setForm({ ...form, title: e.target.value })}
-                className="peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 pt-5 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent"
+                onChange={(e) => {
+                  setForm({ ...form, title: e.target.value });
+                  clearError("title");
+                }}
+                className={`peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 pt-5 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent ${errors.title ? "border-red-400!" : ""}`}
               />
               <label
                 htmlFor="goaltitle"
@@ -134,26 +151,40 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
               >
                 Goal title (e.g. Japan Trip)
               </label>
+              {errors.title && (
+                <p className="text-xs text-red-400 mt-1 px-1">{errors.title}</p>
+              )}
             </div>
 
             {form.category === "other" ? (
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Type your category"
-                  value={customCategory}
-                  onChange={(e) => setCustomCategory(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  onClick={() => {
-                    setForm({ ...form, category: "travel" });
-                    setCustomCategory("");
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs cursor-pointer"
-                >
-                  ✕
-                </button>
+              <div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Type your category"
+                    value={customCategory}
+                    onChange={(e) => {
+                      setCustomCategory(e.target.value);
+                      clearError("customCategory");
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.customCategory ? "border-red-400!" : ""}`}
+                  />
+                  <button
+                    onClick={() => {
+                      setForm({ ...form, category: "travel" });
+                      setCustomCategory("");
+                      clearError("customCategory");
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                </div>
+                {errors.customCategory && (
+                  <p className="text-xs text-red-400 mt-1 px-1">
+                    {errors.customCategory}
+                  </p>
+                )}
               </div>
             ) : (
               <select
@@ -183,7 +214,7 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
                 onChange={(e) =>
                   handleAmountChange(e, "targetAmount", setDisplayTarget)
                 }
-                className="peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 pt-5 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent"
+                className={`peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 pt-5 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent ${errors.targetAmount ? "border-red-400!" : ""}`}
               />
               <label
                 htmlFor="targetAmount"
@@ -191,6 +222,11 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
               >
                 Target Amount (₱)
               </label>
+              {errors.targetAmount && (
+                <p className="text-xs text-red-400 mt-1 px-1">
+                  {errors.targetAmount}
+                </p>
+              )}
             </div>
 
             <div>
@@ -236,16 +272,16 @@ export default function AddGoalModal({ onClose, onSubmit, editData }: Props) {
         {/* Buttons */}
         <div className="flex gap-2 px-6 pt-4 pb-6 shrink-0">
           <button
-            onClick={handleSubmit}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
-          >
-            {editData ? "Save Changes" : "Add Goal"}
-          </button>
-          <button
             onClick={onClose}
             className="flex-1  bg-slate-100  text-slate-800 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium py-2.5 rounded-full transition-colors border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
           >
             Discard
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
+          >
+            {editData ? "Save Changes" : "Add Goal"}
           </button>
         </div>
       </div>

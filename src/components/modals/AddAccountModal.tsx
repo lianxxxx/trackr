@@ -21,6 +21,11 @@ export default function AddAccountModal({
     balance: "",
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const clearError = (field: string) =>
+    setErrors((prev) => ({ ...prev, [field]: "" }));
+
   useEffect(() => {
     if (!editData) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -32,7 +37,13 @@ export default function AddAccountModal({
   }, [editData]);
 
   const handleSubmit = () => {
-    if (!form.name || !form.balance) return;
+    const next: Record<string, string> = {};
+    if (!form.name.trim()) next.name = "Account name is required.";
+    if (!form.balance) next.balance = "Current balance is required.";
+    if (Object.keys(next).length > 0) {
+      setErrors(next);
+      return;
+    }
     onSubmit({
       name: form.name,
       type: form.type,
@@ -86,8 +97,11 @@ export default function AddAccountModal({
                 id="accountname"
                 placeholder="Account name (e.g. BPI Savings)"
                 value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent"
+                onChange={(e) => {
+                  setForm({ ...form, name: e.target.value });
+                  clearError("name");
+                }}
+                className={`peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent ${errors.name ? "border-red-400!" : ""}`}
               />
               <label
                 htmlFor="accountname"
@@ -98,6 +112,9 @@ export default function AddAccountModal({
               >
                 Account name
               </label>
+              {errors.name && (
+                <p className="text-xs text-red-400 mt-1 px-1">{errors.name}</p>
+              )}
             </div>
             <select
               value={form.type}
@@ -125,9 +142,12 @@ export default function AddAccountModal({
                 }
                 onChange={(e) => {
                   const raw = e.target.value.replace(/,/g, "");
-                  if (!isNaN(Number(raw))) setForm({ ...form, balance: raw });
+                  if (!isNaN(Number(raw))) {
+                    setForm({ ...form, balance: raw });
+                    clearError("balance");
+                  }
                 }}
-                className="peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent"
+                className={`peer w-full border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 pb-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 outline-none focus:border-blue-300 transition-colors placeholder-transparent ${errors.balance ? "border-red-400!" : ""}`}
               />
               <label
                 htmlFor="balance"
@@ -138,6 +158,9 @@ export default function AddAccountModal({
               >
                 Current Balance (₱)
               </label>
+              {errors.balance && (
+                <p className="text-xs text-red-400 mt-1 px-1">{errors.balance}</p>
+              )}
             </div>
           </div>
         </div>
@@ -145,16 +168,16 @@ export default function AddAccountModal({
         {/* Buttons */}
         <div className="flex gap-3 px-6 pt-4 pb-6 shrink-0">
           <button
-            onClick={handleSubmit}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
-          >
-            {editData ? "Save Changes" : "Add Account"}
-          </button>
-          <button
             onClick={onClose}
             className="flex-1 text-slate-800 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium py-2.5 rounded-full transition-colors border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer bg-slate-100"
           >
             Discard
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2.5 rounded-full transition-colors cursor-pointer"
+          >
+            {editData ? "Save Changes" : "Add Account"}
           </button>
         </div>
       </div>

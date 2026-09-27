@@ -65,7 +65,7 @@ export default function DesktopSidebar({ user }: Props) {
               Hi, {user.user_metadata?.name || user.email}!
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-              Finance/Expense Tracker
+              Trackr
             </p>
           </div>
         )}

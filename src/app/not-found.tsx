@@ -52,7 +52,7 @@ export default function NotFound() {
         </div>
         <Link
           href={href}
-          className="inline-flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors"
+          className="inline-flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
         >
           {label}
         </Link>
