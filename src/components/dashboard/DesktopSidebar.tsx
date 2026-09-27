@@ -62,7 +62,7 @@ export default function DesktopSidebar({ user }: Props) {
         {!collapsed && (
           <div className="min-w-0">
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
-              Hi, {user.user_metadata?.name || user.email}!
+              {user.user_metadata?.name || user.email}
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
               Trackr

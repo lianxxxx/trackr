@@ -40,7 +40,7 @@ export default function DashboardPage() {
         Welcome back, {name}!
       </h1>
       <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-6">
-        Finance/Expense Tracker Dashboard
+        Here&apos;s where your money went.
       </p>
       <StatsCards transactions={transactions} />
       <div className="flex flex-col md:flex-row gap-4">
