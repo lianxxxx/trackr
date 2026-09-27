@@ -36,6 +36,12 @@ export default function DashboardLayout({
       <MobileNav user={user} />
 
       <main
+        style={
+          {
+            // Lets fixed overlays inside pages center on the content area
+            "--sidebar-w": collapsed ? "5rem" : "16rem",
+          } as React.CSSProperties
+        }
         className={`ml-0 px-4 pt-20 pb-28 md:px-8 md:pt-8 md:pb-8
     ${collapsed ? "md:ml-20" : "md:ml-64"}`}
       >

@@ -10,6 +10,7 @@ export interface UseAccountsResult {
   loading: boolean;
   addAccount: (a: Omit<Account, "id">) => Promise<void>;
   deleteAccount: (id: string) => Promise<void>;
+  deleteAccounts: (ids: string[]) => Promise<void>;
   editAccount: (id: string, updated: Omit<Account, "id">) => Promise<void>;
 }
 
@@ -27,7 +28,7 @@ export function useAccounts(): UseAccountsResult {
     const { data, error } = await supabase
       .from("accounts")
       .select("*")
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending: false });
 
     if (!error && data) {
       setAccounts(
@@ -68,6 +69,20 @@ export function useAccounts(): UseAccountsResult {
     }
   };
 
+  const deleteAccounts = async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { error } = await supabase.from("accounts").delete().in("id", ids);
+    if (error) {
+      showToast("error", error.message);
+    } else {
+      showToast(
+        "success",
+        ids.length === 1 ? "Account deleted." : `${ids.length} accounts deleted.`,
+      );
+      fetchAccounts();
+    }
+  };
+
   const editAccount = async (id: string, updated: Omit<Account, "id">) => {
     const { error } = await supabase
       .from("accounts")
@@ -81,5 +96,12 @@ export function useAccounts(): UseAccountsResult {
     }
   };
 
-  return { accounts, loading, addAccount, deleteAccount, editAccount };
+  return {
+    accounts,
+    loading,
+    addAccount,
+    deleteAccount,
+    deleteAccounts,
+    editAccount,
+  };
 }

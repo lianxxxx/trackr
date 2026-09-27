@@ -4,6 +4,9 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Transaction } from "@/lib/types";
 import { useTransactions } from "@/hooks/useTransactions";
+import { useBulkSelect } from "@/hooks/useBulkSelect";
+import SelectCircle from "@/components/ui/SelectCircle";
+import BulkDeletePopup from "@/components/ui/BulkDeletePopup";
 import TransactionsSkeleton from "@/components/skeletons/TransactionsSkeleton";
 
 const AddTransactionModal = dynamic(
@@ -68,10 +71,32 @@ export default function TransactionsPage() {
     setPage,
     addTransaction,
     deleteTransaction,
+    deleteTransactions,
     editTransaction,
   } = useTransactions();
+  const [showBulkDelete, setShowBulkDelete] = useState(false);
+  const {
+    selecting,
+    selected,
+    allSelected,
+    toggleOne,
+    toggleAll,
+    clear,
+    exit: exitSelecting,
+    unselect,
+    itemProps,
+  } = useBulkSelect(transactions.map((t) => t.id));
+
+  const gridCols = selecting
+    ? "sm:grid-cols-[36px_40px_1fr_1fr_1fr_120px_60px]"
+    : "sm:grid-cols-[40px_1fr_1fr_1fr_120px_60px]";
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+  const goToPage = (p: number) => {
+    clear();
+    setPage(p);
+  };
 
   if (loading) return <TransactionsSkeleton />;
 
@@ -103,7 +128,14 @@ export default function TransactionsPage() {
       {/* Table */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 ">
         {/* Header */}
-        <div className="hidden sm:grid sm:grid-cols-[40px_1fr_1fr_1fr_120px_60px] px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+        <div className={`hidden sm:grid ${gridCols} sm:items-center px-6 py-4 border-b border-slate-200 dark:border-slate-800`}>
+          {selecting && (
+            <SelectCircle
+              checked={allSelected}
+              onToggle={toggleAll}
+              label="Select all on this page"
+            />
+          )}
           <p className="text-xs font-medium text-slate-400">#</p>
           <p className="text-xs font-medium text-slate-400">Name</p>
           <p className="text-xs font-medium text-slate-400">Category</p>
@@ -135,8 +167,21 @@ export default function TransactionsPage() {
               return (
                 <div
                   key={t.id}
-                  className="flex items-center justify-between px-4 sm:px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors sm:grid sm:grid-cols-[40px_1fr_1fr_1fr_120px_60px]"
+                  {...itemProps(t.id)}
+                  className={`flex items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-4 transition-colors select-none sm:grid ${gridCols} ${selecting ? "cursor-pointer" : ""} ${
+                    selected.has(t.id)
+                      ? "bg-blue-50/60 dark:bg-blue-500/5"
+                      : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                  }`}
                 >
+                  {selecting && (
+                    <SelectCircle
+                      checked={selected.has(t.id)}
+                      onToggle={() => toggleOne(t.id)}
+                      label={`Select ${t.title}`}
+                    />
+                  )}
+
                   {/* Number - desktop only */}
                   <p className="hidden sm:block text-xs text-slate-400">
                     {rowNumber}
@@ -191,7 +236,9 @@ export default function TransactionsPage() {
                       {t.type === "income" ? "+" : "-"}₱
                       {t.amount.toLocaleString()}
                     </p>
-                    <div className="sm:flex sm:justify-end">
+                    <div
+                      className={`sm:flex sm:justify-end ${selecting ? "invisible" : ""}`}
+                    >
                       <ActionMenu
                         onEdit={() => {
                           setEditTarget(t);
@@ -218,7 +265,7 @@ export default function TransactionsPage() {
             </p>
             <div className="flex items-center gap-0.5">
               <button
-                onClick={() => setPage((p) => p - 1)}
+                onClick={() => goToPage(page - 1)}
                 disabled={page === 1}
                 className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
               >
@@ -228,7 +275,7 @@ export default function TransactionsPage() {
                 {page} / {totalPages}
               </span>
               <button
-                onClick={() => setPage((p) => p + 1)}
+                onClick={() => goToPage(page + 1)}
                 disabled={page === totalPages}
                 className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
               >
@@ -238,6 +285,17 @@ export default function TransactionsPage() {
           </div>
         )}
       </div>
+
+      {selecting && (
+        <BulkDeletePopup
+          count={selected.size}
+          noun="transactions"
+          allSelected={allSelected}
+          onToggleAll={toggleAll}
+          onDiscard={exitSelecting}
+          onDelete={() => setShowBulkDelete(true)}
+        />
+      )}
 
       {/* Modal */}
       {showModal && (
@@ -266,7 +324,21 @@ export default function TransactionsPage() {
           onClose={() => setDeleteTarget(null)}
           onConfirm={() => {
             deleteTransaction(deleteTarget.id);
+            unselect(deleteTarget.id);
             setDeleteTarget(null);
+          }}
+        />
+      )}
+
+      {showBulkDelete && (
+        <ConfirmDeleteModal
+          title={`Delete ${selected.size} ${selected.size === 1 ? "Transaction" : "Transactions"}`}
+          description={`${selected.size} selected ${selected.size === 1 ? "transaction" : "transactions"} will be permanently removed.`}
+          onClose={() => setShowBulkDelete(false)}
+          onConfirm={() => {
+            deleteTransactions([...selected]);
+            exitSelecting();
+            setShowBulkDelete(false);
           }}
         />
       )}

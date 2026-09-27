@@ -15,6 +15,7 @@ export interface UseTransactionsResult {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   addTransaction: (t: Omit<Transaction, "id">) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
+  deleteTransactions: (ids: string[]) => Promise<void>;
   editTransaction: (
     id: string,
     updated: Omit<Transaction, "id">,
@@ -85,6 +86,31 @@ export function useTransactions(): UseTransactionsResult {
     }
   };
 
+  const deleteTransactions = async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { error } = await supabase
+      .from("transactions")
+      .delete()
+      .in("id", ids);
+    if (error) {
+      showToast("error", error.message);
+      return;
+    }
+    showToast(
+      "success",
+      ids.length === 1
+        ? "Transaction deleted."
+        : `${ids.length} transactions deleted.`,
+    );
+    // If the current page is now past the end, step back to the last page
+    const lastPage = Math.max(
+      1,
+      Math.ceil((totalCount - ids.length) / PAGE_SIZE),
+    );
+    if (page > lastPage) setPage(lastPage);
+    else fetchTransactions(page);
+  };
+
   const editTransaction = async (
     id: string,
     updated: Omit<Transaction, "id">,
@@ -109,6 +135,7 @@ export function useTransactions(): UseTransactionsResult {
     setPage,
     addTransaction,
     deleteTransaction,
+    deleteTransactions,
     editTransaction,
   };
 }

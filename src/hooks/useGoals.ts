@@ -10,6 +10,7 @@ export interface UseGoalsResult {
   loading: boolean;
   addGoal: (g: Omit<Goal, "id">) => Promise<void>;
   deleteGoal: (id: string) => Promise<void>;
+  deleteGoals: (ids: string[]) => Promise<void>;
   editGoal: (id: string, updated: Omit<Goal, "id">) => Promise<void>;
 }
 
@@ -27,7 +28,7 @@ export function useGoals(): UseGoalsResult {
     const { data, error } = await supabase
       .from("goals")
       .select("*")
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending: false });
 
     if (!error && data) {
       setGoals(
@@ -74,6 +75,20 @@ export function useGoals(): UseGoalsResult {
     }
   };
 
+  const deleteGoals = async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { error } = await supabase.from("goals").delete().in("id", ids);
+    if (error) {
+      showToast("error", error.message);
+    } else {
+      showToast(
+        "success",
+        ids.length === 1 ? "Goal deleted." : `${ids.length} goals deleted.`,
+      );
+      fetchGoals();
+    }
+  };
+
   const editGoal = async (id: string, updated: Omit<Goal, "id">) => {
     const { error } = await supabase
       .from("goals")
@@ -93,5 +108,5 @@ export function useGoals(): UseGoalsResult {
     }
   };
 
-  return { goals, loading, addGoal, deleteGoal, editGoal };
+  return { goals, loading, addGoal, deleteGoal, deleteGoals, editGoal };
 }

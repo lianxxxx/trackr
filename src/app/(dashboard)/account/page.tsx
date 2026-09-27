@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { Account } from "@/lib/types";
 import { useAccounts } from "@/hooks/useAccounts";
+import { useBulkSelect } from "@/hooks/useBulkSelect";
+import SelectCircle from "@/components/ui/SelectCircle";
+import BulkDeletePopup from "@/components/ui/BulkDeletePopup";
 import AccountsSkeleton from "@/components/skeletons/AccountsSkeleton";
 
 const AddAccountModal = dynamic(
@@ -48,7 +51,15 @@ const filterLabel: Record<Account["type"], string> = {
 };
 
 export default function AccountPage() {
-  const { accounts, loading, addAccount, deleteAccount, editAccount } = useAccounts();
+  const {
+    accounts,
+    loading,
+    addAccount,
+    deleteAccount,
+    deleteAccounts,
+    editAccount,
+  } = useAccounts();
+  const [showBulkDelete, setShowBulkDelete] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editTarget, setEditTarget] = useState<Account | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
@@ -56,6 +67,17 @@ export default function AccountPage() {
   const totalBalance = accounts.reduce((sum, a) => sum + a.balance, 0);
   const filteredAccounts =
     filter === "all" ? accounts : accounts.filter((a) => a.type === filter);
+  const {
+    selecting,
+    selected,
+    allSelected,
+    toggleOne,
+    toggleAll,
+    clear,
+    exit: exitSelecting,
+    unselect,
+    itemProps,
+  } = useBulkSelect(filteredAccounts.map((a) => a.id));
 
   if (loading) return <AccountsSkeleton />;
 
@@ -100,7 +122,10 @@ export default function AccountPage() {
           return (
             <button
               key={key}
-              onClick={() => setFilter(key)}
+              onClick={() => {
+                clear();
+                setFilter(key);
+              }}
               className={`text-xs font-medium px-3 py-1.5 rounded-full cursor-pointer transition-colors ${
                 active
                   ? "bg-blue-500 text-white"
@@ -142,9 +167,21 @@ export default function AccountPage() {
           filteredAccounts.map((account) => (
             <div
               key={account.id}
-              className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3"
+              {...itemProps(account.id)}
+              className={`rounded-2xl p-5 border flex items-center justify-between gap-3 select-none transition-colors ${selecting ? "cursor-pointer" : ""} ${
+                selected.has(account.id)
+                  ? "bg-blue-50/60 dark:bg-blue-500/5 border-blue-200 dark:border-blue-500/30"
+                  : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+              }`}
             >
               <div className="flex items-center gap-4 min-w-0">
+                {selecting && (
+                  <SelectCircle
+                    checked={selected.has(account.id)}
+                    onToggle={() => toggleOne(account.id)}
+                    label={`Select ${account.name}`}
+                  />
+                )}
                 <div
                   className={`w-11 h-11 rounded-xl shrink-0 flex items-center justify-center ${typeColor[account.type]}`}
                 >
@@ -166,13 +203,15 @@ export default function AccountPage() {
                   {account.balance < 0 ? "-" : ""}₱
                   {Math.abs(account.balance).toLocaleString()}
                 </p>
-                <ActionMenu
-                  onEdit={() => {
-                    setEditTarget(account);
-                    setShowModal(true);
-                  }}
-                  onDelete={() => setDeleteTarget({ id: account.id, name: account.name })}
-                />
+                <div className={selecting ? "invisible" : ""}>
+                  <ActionMenu
+                    onEdit={() => {
+                      setEditTarget(account);
+                      setShowModal(true);
+                    }}
+                    onDelete={() => setDeleteTarget({ id: account.id, name: account.name })}
+                  />
+                </div>
               </div>
             </div>
           ))
@@ -209,7 +248,32 @@ export default function AccountPage() {
           onClose={() => setDeleteTarget(null)}
           onConfirm={() => {
             deleteAccount(deleteTarget.id);
+            unselect(deleteTarget.id);
             setDeleteTarget(null);
+          }}
+        />
+      )}
+
+      {selecting && (
+        <BulkDeletePopup
+          count={selected.size}
+          noun="accounts"
+          allSelected={allSelected}
+          onToggleAll={toggleAll}
+          onDiscard={exitSelecting}
+          onDelete={() => setShowBulkDelete(true)}
+        />
+      )}
+
+      {showBulkDelete && (
+        <ConfirmDeleteModal
+          title={`Delete ${selected.size} ${selected.size === 1 ? "Account" : "Accounts"}`}
+          description={`${selected.size} selected ${selected.size === 1 ? "account" : "accounts"} and all their data will be permanently removed.`}
+          onClose={() => setShowBulkDelete(false)}
+          onConfirm={() => {
+            deleteAccounts([...selected]);
+            exitSelecting();
+            setShowBulkDelete(false);
           }}
         />
       )}

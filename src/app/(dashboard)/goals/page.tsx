@@ -3,6 +3,9 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useGoals } from "@/hooks/useGoals";
+import { useBulkSelect } from "@/hooks/useBulkSelect";
+import SelectCircle from "@/components/ui/SelectCircle";
+import BulkDeletePopup from "@/components/ui/BulkDeletePopup";
 import { Goal } from "@/lib/types";
 import GoalsSkeleton from "@/components/skeletons/GoalsSkeleton";
 
@@ -53,7 +56,19 @@ export default function GoalsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editTarget, setEditTarget] = useState<Goal | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
-  const { goals, loading, addGoal, deleteGoal, editGoal } = useGoals();
+  const { goals, loading, addGoal, deleteGoal, deleteGoals, editGoal } =
+    useGoals();
+  const [showBulkDelete, setShowBulkDelete] = useState(false);
+  const {
+    selecting,
+    selected,
+    allSelected,
+    toggleOne,
+    toggleAll,
+    exit: exitSelecting,
+    unselect,
+    itemProps,
+  } = useBulkSelect(goals.map((g) => g.id));
 
   if (loading) return <GoalsSkeleton />;
 
@@ -108,10 +123,22 @@ export default function GoalsPage() {
             return (
               <div
                 key={goal.id}
-                className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 group"
+                {...itemProps(goal.id)}
+                className={`rounded-2xl p-6 border group select-none transition-colors ${selecting ? "cursor-pointer" : ""} ${
+                  selected.has(goal.id)
+                    ? "bg-blue-50/60 dark:bg-blue-500/5 border-blue-200 dark:border-blue-500/30"
+                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                }`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
+                    {selecting && (
+                      <SelectCircle
+                        checked={selected.has(goal.id)}
+                        onToggle={() => toggleOne(goal.id)}
+                        label={`Select ${goal.title}`}
+                      />
+                    )}
                     <div
                       className={`w-10 h-10 rounded-xl shrink-0 flex items-center justify-center ${categoryColor[goal.category] || "bg-blue-50 dark:bg-blue-500/10 text-blue-500"}`}
                     >
@@ -136,13 +163,15 @@ export default function GoalsPage() {
                         {daysLeft > 0 ? `${daysLeft} days left` : "Overdue"}
                       </span>
                     )}
-                    <ActionMenu
-                      onEdit={() => {
-                        setEditTarget(goal);
-                        setShowModal(true);
-                      }}
-                      onDelete={() => setDeleteTarget({ id: goal.id, name: goal.title })}
-                    />
+                    <div className={selecting ? "invisible" : ""}>
+                      <ActionMenu
+                        onEdit={() => {
+                          setEditTarget(goal);
+                          setShowModal(true);
+                        }}
+                        onDelete={() => setDeleteTarget({ id: goal.id, name: goal.title })}
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -201,7 +230,32 @@ export default function GoalsPage() {
           onClose={() => setDeleteTarget(null)}
           onConfirm={() => {
             deleteGoal(deleteTarget.id);
+            unselect(deleteTarget.id);
             setDeleteTarget(null);
+          }}
+        />
+      )}
+
+      {selecting && (
+        <BulkDeletePopup
+          count={selected.size}
+          noun="goals"
+          allSelected={allSelected}
+          onToggleAll={toggleAll}
+          onDiscard={exitSelecting}
+          onDelete={() => setShowBulkDelete(true)}
+        />
+      )}
+
+      {showBulkDelete && (
+        <ConfirmDeleteModal
+          title={`Delete ${selected.size} ${selected.size === 1 ? "Goal" : "Goals"}`}
+          description={`${selected.size} selected ${selected.size === 1 ? "goal" : "goals"} will be permanently removed.`}
+          onClose={() => setShowBulkDelete(false)}
+          onConfirm={() => {
+            deleteGoals([...selected]);
+            exitSelecting();
+            setShowBulkDelete(false);
           }}
         />
       )}
