@@ -20,9 +20,9 @@ No test suite is configured.
 
 ```
 src/app/
-  (auth)/         # login, register — unauthenticated routes
+  (auth)/         # login, register: unauthenticated routes
   (dashboard)/    # protected routes: dashboard, transactions, account, goals, insights, settings
-  api/insights/   # POST — AI insight generation via OpenRouter
+  api/insights/   # POST: AI insight generation via OpenRouter
 ```
 
 Route protection is handled inside each page using the `useAuth()` hook, which redirects to `/login` if the session is absent.
@@ -30,10 +30,10 @@ Route protection is handled inside each page using the `useAuth()` hook, which r
 ### Data Layer
 
 All CRUD lives in custom hooks under `src/hooks/`:
-- `useAuth()` — Supabase session & user state
-- `useTransactions()` — transactions table
-- `useAccounts()` — accounts table
-- `useGoals()` — goals table
+- `useAuth()`: Supabase session & user state
+- `useTransactions()`: transactions table
+- `useAccounts()`: accounts table
+- `useGoals()`: goals table
 
 Each hook calls the Supabase client directly (no API layer between the browser and Supabase). All tables are scoped by `user_id`.
 
@@ -45,7 +45,7 @@ Core types are in `src/lib/types.ts`: `Transaction`, `Account`, `Goal`, `Categor
 
 ### UI Patterns
 
-- All interactive components are `"use client"` — no server components in the dashboard
+- All interactive components are `"use client"`, no server components in the dashboard
 - Modal-based data entry: `AddTransactionModal`, `AddAccountModal`, `AddGoalModal` in `src/components/modals/`
 - Dashboard charts use Recharts; skeleton loaders (`InsightsSkeleton`) cover async states
 - Dark/light theming via `next-themes`
@@ -53,7 +53,7 @@ Core types are in `src/lib/types.ts`: `Transaction`, `Account`, `Goal`, `Categor
 
 ### Path Alias
 
-`@/*` maps to `src/*` — use this for all internal imports.
+`@/*` maps to `src/*`, use this for all internal imports.
 
 ### Environment Variables
 

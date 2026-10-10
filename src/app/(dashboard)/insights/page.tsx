@@ -41,7 +41,7 @@ function buildPrompt(transactions: Transaction[], monthly: MonthlyData[]) {
   const prevMonth = lastTwo[0];
   const currMonth = lastTwo[1];
 
-  return `You are a helpful personal finance assistant. Analyze this user's financial data and respond in JSON only — no markdown, no backticks, no explanation outside the JSON.
+  return `You are a helpful personal finance assistant. Analyze this user's financial data and respond in JSON only: no markdown, no backticks, no explanation outside the JSON.
 
 Financial Data:
 - Total Income this month: ₱${totalIncome.toLocaleString()}

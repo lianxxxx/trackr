@@ -8,14 +8,14 @@ A personal finance tracker built with Next.js, TypeScript, and Tailwind CSS that
 
 ## Features
 
-- **Dashboard** — Overview of balance, income, expenses, and spending breakdown
-- **Transactions** — Log, edit, and delete income/expense entries with categories
-- **Accounts** — Manage multiple accounts (bank, e-wallet, cash, credit) with type filtering
-- **Goals** — Set financial goals and track progress
-- **AI Insights** — Multi-model AI analysis with smart fallback (GPT-OSS 120B, LLaMA 3.3 70B, and more), with monthly history
-- **Profile** — Editable display name synced across the app
-- **Dark mode** — System-aware theme toggle
-- **Responsive** — Mobile and desktop friendly
+- **Dashboard**: Overview of balance, income, expenses, and spending breakdown
+- **Transactions**: Log, edit, and delete income/expense entries with categories
+- **Accounts**: Manage multiple accounts (bank, e-wallet, cash, credit) with type filtering
+- **Goals**: Set financial goals and track progress
+- **AI Insights**: Multi-model AI analysis with smart fallback (GPT-OSS 120B, LLaMA 3.3 70B, and more), with monthly history
+- **Profile**: Editable display name synced across the app
+- **Dark mode**: System-aware theme toggle
+- **Responsive**: Mobile and desktop friendly
 
 ---
 

@@ -37,7 +37,7 @@ export default function MobileNav({ user }: Props) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {/* Same toggle button mo sa settings — shared logic na */}
+          {/* Same toggle button mo sa settings, shared logic na */}
           <button
             onClick={toggleTheme}
             className="relative flex items-center bg-slate-100 dark:bg-slate-800 rounded-full p-1 gap-0.5 cursor-pointer"

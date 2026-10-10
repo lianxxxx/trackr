@@ -19,7 +19,7 @@ export default function TransactionsSkeleton() {
 
       {/* Table card */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-        {/* Column header row — desktop */}
+        {/* Column header row: desktop */}
         <div className="hidden sm:flex items-center gap-4 px-6 py-4 border-b border-slate-200 dark:border-slate-800">
           <Skeleton height={12} width={16} />
           <div className="flex-1">
@@ -46,7 +46,7 @@ export default function TransactionsSkeleton() {
               key={i}
               className="flex items-center justify-between px-4 sm:px-6 py-4 gap-4"
             >
-              {/* Row number — desktop */}
+              {/* Row number: desktop */}
               <div className="hidden sm:block w-6 shrink-0">
                 <Skeleton height={12} width={16} />
               </div>
@@ -62,12 +62,12 @@ export default function TransactionsSkeleton() {
                 </div>
               </div>
 
-              {/* Category — desktop */}
+              {/* Category: desktop */}
               <div className="hidden sm:block w-32">
                 <Skeleton height={14} width={70} />
               </div>
 
-              {/* Date — desktop */}
+              {/* Date: desktop */}
               <div className="hidden sm:block w-32">
                 <Skeleton height={14} width={90} />
               </div>
