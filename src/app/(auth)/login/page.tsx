@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { TbEye, TbEyeOff } from "react-icons/tb";
 import { useToast } from "@/context/ToastContext";
+import TrackrMark from "@/components/TrackrMark";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -42,13 +43,8 @@ export default function LoginPage() {
       <div className="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-8 py-10">
         {/* Logo */}
         <div className="mb-8 text-center">
-          <em
-            style={{ fontFamily: "var(--font-dm-serif)" }}
-            className="text-3xl tracking-tight text-blue-300"
-          >
-            Trackr
-          </em>
-          <p className="text-sm text-slate-400 mt-1">Welcome back</p>
+          <TrackrMark className="mx-auto h-10 w-auto text-blue-400" />
+          <p className="text-sm text-slate-400 mt-3">Welcome back</p>
         </div>
 
         {/* Form */}

@@ -25,7 +25,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   metadataBase: new URL("https://trackrph.vercel.app"),
   title: {
-    default: "Trackr — Personal Finance Tracker",
+    default: "Trackr: Personal Finance Tracker",
     template: "%s | Trackr",
   },
   description:
@@ -41,20 +41,17 @@ export const metadata: Metadata = {
     "money tracker",
     "Trackr",
   ],
-  icons: {
-    icon: "/favicon2.webp",
-  },
   openGraph: {
     type: "website",
     siteName: "Trackr",
-    title: "Trackr — Personal Finance Tracker",
+    title: "Trackr: Personal Finance Tracker",
     description: "Know where your money actually goes.",
     url: "https://trackrph.vercel.app",
     locale: "en_PH",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Trackr — Personal Finance Tracker",
+    title: "Trackr: Personal Finance Tracker",
     description: "Know where your money actually goes.",
   },
   robots: {

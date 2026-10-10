@@ -12,6 +12,7 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { TbLogout } from "react-icons/tb";
 import { useToast } from "@/context/ToastContext";
+import TrackrMark from "@/components/TrackrMark";
 
 const ConfirmLogoutModal = dynamic(
   () => import("@/components/modals/ConfirmLogoutModal"),
@@ -64,7 +65,8 @@ export default function DesktopSidebar({ user }: Props) {
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
               {user.user_metadata?.name || user.email}
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+            <p className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 truncate">
+              <TrackrMark className="h-3 w-auto shrink-0 text-blue-400" />
               Trackr
             </p>
           </div>

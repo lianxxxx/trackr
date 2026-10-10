@@ -1,33 +1,25 @@
+import TrackrMark from "@/components/TrackrMark";
+
 export default function TrackrLoader() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-950">
-      <div className="flex items-end gap-1.5 h-10">
-        {[
-          { color: "bg-slate-900 dark:bg-slate-100", delay: "0s" },
-          { color: "bg-slate-600 dark:bg-slate-300", delay: "0.15s" },
-          { color: "bg-slate-400 dark:bg-slate-500", delay: "0.3s" },
-          { color: "bg-slate-300 dark:bg-slate-700", delay: "0.45s" },
-        ].map((b, i) => (
-          <span
-            key={i}
-            className={`block w-2 h-10 rounded-sm origin-bottom trackr-bar ${b.color}`}
-            style={{ animationDelay: b.delay }}
-          />
-        ))}
+    <div className="min-h-screen flex flex-col items-center justify-center gap-5 bg-slate-50 dark:bg-slate-950">
+      <TrackrMark className="h-12 w-auto text-blue-400" />
+      <div className="relative h-0.5 w-20 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+        <span className="trackr-line absolute inset-y-0 left-0 w-1/2 rounded-full bg-blue-400" />
       </div>
-      <em
-        style={{ fontFamily: "var(--font-dm-serif)" }}
-        className="text-2xl tracking-tight text-blue-300"
-      >
-        Trackr
-      </em>
+      <p className="text-xs text-slate-400">
+        Stack it, track it,{" "}
+        <span className="font-medium text-slate-900 dark:text-slate-50">
+          Trackr.
+        </span>
+</p>
       <style>{`
-        @keyframes trackrBarPulse {
-          0%, 100% { transform: scaleY(0.4); }
-          50% { transform: scaleY(1); }
+        @keyframes trackrLineSlide {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
         }
-        .trackr-bar {
-          animation: trackrBarPulse 1s ease-in-out infinite;
+        .trackr-line {
+          animation: trackrLineSlide 1.1s ease-in-out infinite;
         }
       `}</style>
     </div>
