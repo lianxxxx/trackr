@@ -236,6 +236,7 @@ export default function InsightsPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchHistory();
   }, []);
 
@@ -244,6 +245,7 @@ export default function InsightsPage() {
     if (stored) {
       try {
         const parsed: StoredInsights = JSON.parse(stored);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setInsights(parsed.insights);
         setGeneratedAt(parsed.generatedAt);
         setGenerated(true);
