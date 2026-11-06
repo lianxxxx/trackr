@@ -26,26 +26,27 @@ export default function Home() {
       className="min-h-screen bg-white dark:bg-slate-950 text-[#0f0f0f] dark:text-slate-50"
     >
       {/* Nav */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between md:px-30 sm:px-10 px-5 py-4 border-b border-slate-100 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
+      <div className="sticky top-0 z-50 md:px-30 sm:px-10 px-5 pt-3 sm:pt-4">
+      <nav className="flex items-center justify-between pl-5 sm:pl-6 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full border border-slate-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
         <Link href="/" className="flex items-center gap-2">
-          <TrackrMark className="h-6 sm:h-7 w-auto text-blue-400" />
+          <TrackrMark className="h-5 sm:h-6 w-auto text-blue-400" />
           <span
             style={{ fontFamily: "var(--font-dm-serif)" }}
-            className="text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-slate-50"
+            className="text-xl sm:text-2xl tracking-tight text-slate-900 dark:text-slate-50"
           >
             Trackr
           </span>
         </Link>
-        <div className="flex items-center gap-2 sm:gap-4 md:gap-8">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <Link
             href="#about"
-            className="text-sm text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors hidden md:block"
+            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block"
           >
             About
           </Link>
           <Link
             href="/login"
-            className="text-sm text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors hidden md:block"
+            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block"
           >
             Login
           </Link>
@@ -54,7 +55,7 @@ export default function Home() {
           <button
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="group cursor-pointer pl-4"
+            className="group cursor-pointer md:mx-2"
           >
             {/* Mobile: icon only, icons swap */}
             <span className="md:hidden relative flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur transition-transform duration-200 active:scale-90">
@@ -106,12 +107,13 @@ export default function Home() {
 
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-4 sm:px-5 py-1.5 sm:py-2 hover:opacity-75 transition-opacity whitespace-nowrap"
+            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-4 sm:px-5 py-2 hover:bg-blue-600 transition-colors whitespace-nowrap"
           >
             Get started
           </Link>
         </div>
       </nav>
+      </div>
 
       {/* Hero */}
       <section className="md:px-30 sm:px-10 px-5 pt-12 sm:pt-16 lg:pt-24 pb-16 flex flex-col lg:flex-row lg:items-center justify-between gap-14 lg:gap-12">
