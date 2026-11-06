@@ -8,9 +8,8 @@ import macbookShot from "../../public/devices/macbook.webp";
 import TrackrMark from "@/components/TrackrMark";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { MdOutlineWbSunny } from "react-icons/md";
-import { IoMoonOutline } from "react-icons/io5";
 import { IoArrowForward, IoCheckmarkCircle } from "react-icons/io5";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -52,35 +51,54 @@ export default function Home() {
           </Link>
 
           {/* Theme toggle */}
-          <button onClick={toggleTheme} className="cursor-pointer pl-4">
-            {/* Mobile: icon only */}
-            <span className="md:hidden flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 ">
-              {isDark ? (
-                <IoMoonOutline size={13} className="text-blue-400" />
-              ) : (
-                <MdOutlineWbSunny size={13} className="text-amber-500" />
-              )}
-            </span>
-
-            {/* Desktop: full slider */}
-            <span className="hidden md:relative md:flex items-center bg-slate-100 dark:bg-slate-800 rounded-full p-1 gap-0.5">
-              <span
-                className={`absolute w-6 h-6 rounded-full transition-all duration-300 ease-in-out ${
-                  isDark
-                    ? "translate-x-6.5 bg-slate-700"
-                    : "translate-x-0 bg-white shadow-sm"
+          <button
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="group cursor-pointer pl-4"
+          >
+            {/* Mobile: icon only, icons swap */}
+            <span className="md:hidden relative flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur transition-transform duration-200 active:scale-90">
+              <HiOutlineSun
+                size={16}
+                className={`absolute text-amber-500 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isDark ? "rotate-90 scale-50 opacity-0" : "rotate-0 scale-100 opacity-100"
                 }`}
               />
-              <span className="relative z-10 flex items-center justify-center w-6 h-6">
-                <MdOutlineWbSunny
+              <HiOutlineMoon
+                size={15}
+                className={`absolute text-blue-400 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isDark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-50 opacity-0"
+                }`}
+              />
+            </span>
+
+            {/* Desktop: segmented pill with gliding frosted knob */}
+            <span className="hidden md:flex relative items-center p-0.5 rounded-full border border-slate-200 dark:border-slate-700/80">
+              <span
+                className={`absolute top-0.5 left-0.5 w-7 h-6 rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isDark
+                    ? "translate-x-7 bg-slate-700/80 ring-1 ring-white/10 shadow-[0_1px_3px_rgba(0,0,0,0.4)]"
+                    : "translate-x-0 bg-white/90 ring-1 ring-black/5 shadow-[0_1px_3px_rgba(15,23,42,0.12)]"
+                }`}
+              />
+              <span className="relative z-10 flex items-center justify-center w-7 h-6">
+                <HiOutlineSun
                   size={15}
-                  className={!isDark ? "text-amber-500" : "text-slate-500"}
+                  className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    isDark
+                      ? "text-slate-500 rotate-0 scale-90 group-hover:text-slate-400"
+                      : "text-amber-500 rotate-90 scale-100"
+                  }`}
                 />
               </span>
-              <span className="relative z-10 flex items-center justify-center w-6 h-6">
-                <IoMoonOutline
-                  size={15}
-                  className={isDark ? "text-blue-400" : "text-slate-400"}
+              <span className="relative z-10 flex items-center justify-center w-7 h-6">
+                <HiOutlineMoon
+                  size={14}
+                  className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    isDark
+                      ? "text-blue-400 -rotate-12 scale-100"
+                      : "text-slate-400 rotate-0 scale-90 group-hover:text-slate-500"
+                  }`}
                 />
               </span>
             </span>
