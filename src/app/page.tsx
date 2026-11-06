@@ -11,13 +11,13 @@ import { useEffect, useState } from "react";
 import { IoArrowForward, IoCheckmarkCircle } from "react-icons/io5";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 export default function Home() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
-  const isDark = mounted && theme === "dark";
+  const isDark = mounted && resolvedTheme === "dark";
   const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   return (
@@ -28,7 +28,7 @@ export default function Home() {
       {/* Nav */}
       <div className="sticky top-0 z-50 md:px-30 sm:px-10 px-5 pt-3 sm:pt-4">
       <nav className="flex items-center justify-between pl-5 sm:pl-6 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full border border-slate-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950">
           <TrackrMark className="h-5 sm:h-6 w-auto text-blue-400" />
           <span
             style={{ fontFamily: "var(--font-dm-serif)" }}
@@ -40,13 +40,25 @@ export default function Home() {
         <div className="flex items-center gap-1.5 sm:gap-2">
           <Link
             href="#about"
-            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block"
+            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             About
           </Link>
           <Link
+            href="#features"
+            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+          >
+            Features
+          </Link>
+          <Link
             href="/login"
-            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block"
+            className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-3.5 py-1.5 transition-colors hidden md:block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+          >
+            Login
+          </Link>
+          <Link
+            href="/login"
+            className="md:hidden text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70 rounded-full px-2.5 py-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             Login
           </Link>
@@ -55,7 +67,7 @@ export default function Home() {
           <button
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="group cursor-pointer md:mx-2"
+            className="group cursor-pointer md:mx-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             {/* Mobile: icon only, icons swap */}
             <span className="md:hidden relative flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur transition-transform duration-200 active:scale-90">
@@ -107,7 +119,7 @@ export default function Home() {
 
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-4 sm:px-5 py-2 hover:bg-blue-600 transition-colors whitespace-nowrap"
+            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-4 sm:px-5 py-2 hover:bg-blue-600 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             Get started
           </Link>
@@ -120,25 +132,25 @@ export default function Home() {
         <div className="max-w-3xl">
         <h1
           style={{ fontFamily: "var(--font-dm-serif)" }}
-          className="md:text-6xl text-4xl sm:text-5xl leading-[1.08] tracking-tight text-[#0f0f0f] dark:text-slate-50 mb-6"
+          className="md:text-6xl text-4xl sm:text-5xl leading-[1.08] tracking-tight text-balance text-[#0f0f0f] dark:text-slate-50 mb-6"
         >
-          Know where your <br />
-          <em className="text-blue-300">money actually goes.</em>
+          Know where your <br className="hidden sm:block" />
+          <em className="text-blue-400">money actually goes.</em>
         </h1>
-        <p className="text-base font-light text-slate-400 leading-relaxed max-w-md lg:mb-10">
+        <p className="text-base font-light text-slate-500 dark:text-slate-400 leading-relaxed max-w-md lg:mb-10">
           A quiet, focused tool for tracking income, expenses, and goals. No
           distractions.
         </p>
         <div className="hidden lg:flex items-center gap-4">
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-5 sm:px-8 py-2.5 sm:py-3 hover:opacity-75 transition-opacity whitespace-nowrap"
+            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-5 sm:px-8 py-2.5 sm:py-3 hover:bg-blue-600 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             Start tracking
           </Link>
           <Link
-            href="/dashboard"
-            className="text-xs sm:text-sm text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors whitespace-nowrap"
+            href="#features"
+            className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors whitespace-nowrap rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             <span className="flex items-center gap-1 text-sm">
               See what&apos;s inside <IoArrowForward className="w-4 h-4" />
@@ -149,11 +161,11 @@ export default function Home() {
 
         {/* Device mockups */}
         <div className="relative shrink-0 self-center lg:self-auto lg:mr-8">
-          <span className="absolute -top-10 -left-4 sm:-left-10 z-10 inline-flex -rotate-3 rounded-full bg-blue-300 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-medium text-white whitespace-nowrap">
+          <span className="absolute -top-10 -left-4 sm:-left-10 z-10 inline-flex -rotate-3 rounded-full bg-blue-400 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-medium text-white whitespace-nowrap">
             Every peso, in its place
             <span
               aria-hidden
-              className="absolute right-6 -bottom-1 h-3 w-3 rotate-45 rounded-[2px] bg-blue-300"
+              className="absolute right-6 -bottom-1 h-3 w-3 rotate-45 rounded-[2px] bg-blue-400"
             />
           </span>
           <Image
@@ -164,11 +176,11 @@ export default function Home() {
             className="w-[230px] sm:w-[300px] lg:w-[340px] h-auto drop-shadow-xl"
           />
           <div className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-14 w-[90px] sm:w-[115px] lg:w-[130px]">
-            <span className="absolute -top-7 -right-4 sm:-right-6 z-10 inline-flex rotate-3 rounded-full bg-blue-300 px-3 py-1 text-xs font-medium text-white whitespace-nowrap">
+            <span className="absolute -top-7 -right-4 sm:-right-6 z-10 inline-flex rotate-3 rounded-full bg-blue-400 px-3 py-1 text-xs font-medium text-white whitespace-nowrap">
               Goals
               <span
                 aria-hidden
-                className="absolute left-3 -bottom-1 h-2.5 w-2.5 rotate-45 rounded-[2px] bg-blue-300"
+                className="absolute left-3 -bottom-1 h-2.5 w-2.5 rotate-45 rounded-[2px] bg-blue-400"
               />
             </span>
             <Image
@@ -185,13 +197,13 @@ export default function Home() {
         <div className="flex lg:hidden items-center gap-4 self-center">
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-5 sm:px-8 py-2.5 sm:py-3 hover:opacity-75 transition-opacity whitespace-nowrap"
+            className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-5 sm:px-8 py-2.5 sm:py-3 hover:bg-blue-600 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             Start tracking
           </Link>
           <Link
-            href="/dashboard"
-            className="text-xs sm:text-sm text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors whitespace-nowrap"
+            href="#features"
+            className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors whitespace-nowrap rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             <span className="flex items-center gap-1 text-sm">
               See what&apos;s inside <IoArrowForward className="w-4 h-4" />
@@ -208,11 +220,11 @@ export default function Home() {
       >
         {/* MacBook mockup */}
         <div className="relative order-2 lg:order-1 self-center w-full max-w-[420px] sm:max-w-[500px] lg:max-w-[560px]">
-          <span className="absolute -top-9 right-4 sm:right-10 z-10 inline-flex rotate-3 rounded-full bg-blue-300 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-medium text-white whitespace-nowrap">
+          <span className="absolute -top-9 right-4 sm:right-10 z-10 inline-flex rotate-3 rounded-full bg-blue-400 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-medium text-white whitespace-nowrap">
             Ask where it went
             <span
               aria-hidden
-              className="absolute left-6 -bottom-1 h-3 w-3 rotate-45 rounded-[2px] bg-blue-300"
+              className="absolute left-6 -bottom-1 h-3 w-3 rotate-45 rounded-[2px] bg-blue-400"
             />
           </span>
           <Image
@@ -226,15 +238,14 @@ export default function Home() {
         <div className="order-1 lg:order-2 max-w-md text-right pt-8 self-end lg:self-auto">
           <h2
             style={{ fontFamily: "var(--font-dm-serif)" }}
-            className="md:text-6xl text-4xl sm:text-5xl leading-[1.08] tracking-tight text-blue-300 mb-6"
+            className="md:text-6xl text-4xl sm:text-5xl leading-[1.08] tracking-tight text-blue-400 mb-6 text-balance"
           >
-            Trackr <br />
+            Trackr <br className="hidden sm:block" />
             <em className=" text-[#0f0f0f]  dark:text-slate-50 ">without e.</em>
           </h2>
 
-          <p className="text-sm font-light text-slate-400 leading-relaxed my-3">
-            No subscriptions. No data selling. Just a clean space to understand
-            your finances,{" "}
+          <p className="text-sm font-light text-slate-500 dark:text-slate-400 leading-relaxed my-3">
+            Log what comes in and what goes out, and see it all in one place,{" "}
             <span className="text-slate-600 dark:text-slate-300 font-medium">
               built for people who want clarity, not clutter.
             </span>
@@ -252,12 +263,12 @@ export default function Home() {
           <div className="relative lg:flex-[1.7] rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-10">
             <h2
               style={{ fontFamily: "var(--font-dm-serif)" }}
-              className="text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight text-[#0f0f0f] dark:text-slate-50 mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight text-[#0f0f0f] dark:text-slate-50 mb-4 text-balance"
             >
-              Everything you need to <br />
-              <em className="text-blue-300">stay in control.</em>
+              Everything you need to <br className="hidden sm:block" />
+              <em className="text-blue-400">stay in control.</em>
             </h2>
-            <p className="text-sm font-light text-slate-400 leading-relaxed max-w-md mb-8">
+            <p className="text-sm font-light text-slate-500 dark:text-slate-400 leading-relaxed max-w-md mb-8">
               Log it, see it, understand it. Trackr keeps your income,
               expenses, and goals in one quiet place.
             </p>
@@ -329,7 +340,7 @@ export default function Home() {
             </p>
             <Link
               href="/register"
-              className="inline-flex items-center justify-center gap-1 rounded-full bg-white px-8 py-3 text-sm font-medium text-blue-500 hover:opacity-75 transition-opacity"
+              className="inline-flex items-center justify-center gap-1 rounded-full bg-white px-8 py-3 text-sm font-medium text-blue-500 hover:bg-blue-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-500"
             >
               Start tracking <IoArrowForward className="w-4 h-4" />
             </Link>
@@ -346,14 +357,14 @@ export default function Home() {
           style={{ fontFamily: "var(--font-dm-serif)" }}
           className="text-lg sm:text-2xl md:text-3xl tracking-tight dark:text-slate-50"
         >
-          Your money, <em className="text-blue-300">clearly yours.</em>
+          Your money, <em className="text-blue-400">clearly yours.</em>
         </p>
         <Link
-          href="/dashboard"
-          className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-4 sm:px-6 py-2 sm:py-3 hover:opacity-75 transition-opacity whitespace-nowrap"
+          href="/register"
+          className="text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-full px-4 sm:px-6 py-2 sm:py-3 hover:bg-blue-600 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
         >
           <span className="flex items-center gap-1 text-sm">
-            Open Dashboard
+            Start tracking
             <IoArrowForward className="w-4 h-4" />
           </span>
         </Link>
@@ -361,16 +372,16 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="md:px-30 sm:px-10 px-5 py-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-center sm:justify-between gap-y-2 gap-x-4 text-center sm:text-left">
-        <p className="text-xs text-slate-300 dark:text-slate-600">
+        <p className="text-xs text-slate-400 dark:text-slate-500">
           © 2026 Trackr. All rights reserved.
         </p>
-        <p className="text-xs text-slate-300 dark:text-slate-600">
+        <p className="text-xs text-slate-400 dark:text-slate-500">
           Built by{" "}
           <a
             href="https://leyannemayo.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-400 hover:text-blue-500 transition-colors"
+            className="rounded text-slate-500 dark:text-slate-400 hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             el-em
           </a>
