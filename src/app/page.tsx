@@ -375,17 +375,6 @@ export default function Home() {
         <p className="text-xs text-slate-400 dark:text-slate-500">
           © 2026 Trackr. All rights reserved.
         </p>
-        <p className="text-xs text-slate-400 dark:text-slate-500">
-          Built by{" "}
-          <a
-            href="https://leyannemayo.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded text-slate-500 dark:text-slate-400 hover:text-blue-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-          >
-            el-em
-          </a>
-        </p>
       </footer>
     </div>
   );
